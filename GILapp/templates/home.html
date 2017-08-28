@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+ 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  	<style>
+  		a{
+  			text-decoration: none !important;
+  		}
+
+  		#logbtn{
+  			color: white;
+  		}
+
+  		#logbtn:hover{
+  			color: #f2f2f2;
+  		}
+
+  		#inp {
+
+    	margin-bottom: 20px;
+    	background-color: rgba(255, 255, 255, 0.75);
+    	border: 1px solid transparent;
+    	border-radius: 4px;
+   		-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    }
+
+
+  	</style>
+</head>
+
+
+<body style="background-color: #e6e6ff;">
+
+	<header style="height: 80px; background-color: #1a1aff;">
+
+		<div class="row">
+			<div class="col-md-4">
+    			<p style="padding-top: 20px; padding-left: 20px; font-size: 30px; font-family: cursive; color: white;">GIL Blog</p>
+    		</div>
+    		<div class="col-md-2 col-md-offset-6" style="margin-top: 20px;">
+    			<a href="/logout/"><span id="logbtn" style="padding-left: 13px;"><i class="glyphicon glyphicon-off"></i><br>Logout</span></a>
+    		</div>
+    	</div>
+    </header>
+
+    <h1 style="text-align: center;color: #4d4d4d;">Hi <span style="font-family: cursive;">{{username}}</span> </h1>
+
+
+    <div id="inp" class="panel panel-default container" style="margin-top: 40px; max-width: 500px;">
+    	<div class="panel-body">
+    		<form action="{% url 'ert' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    			<input class="form-control" placeholder="Title" type="text" name="title" required><br>
+          <textarea class="form-control" placeholder="About" type="text" rows="5" name="description" style="max-width: 440px" required></textarea><br>
+          Choose Image: <input type="file" name="pic" accept="image/*"><br>
+          <button class="btn btn-success" style="float: right; width: 100px;"> Post </button>
+    		</form>
+      </div>
+    </div>
+
+      <div style="margin-top: 40px;">
+        {% for i in q %}
+        <div class="panel panel-default container" style="margin-top: 10px; max-width: 500px;">
+        <p style="font-size: 20px;">Posted by:</p><b>{{i.author}}</b>&nbsp;&nbsp;&nbsp;&nbsp;<small>{{i.date_created|timesince}} ago</small><br><br>
+        <b>title:</b> {{i.title}}<br>
+        <b>comment</b> : {{i.description}}<br>
+        <img src="/media/{{i.pic}}" alt="{{i.pic}}" style="float: left; width: 300px;height: 200px; margin-bottom: 10px; margin-top: 10px;" required>
+        <a href="/home/view/{{i.id}}/"><span style="float: left; clear: left;">View</span></a><br>
+        </div>
+        {% endfor %}
+      </div>
+
+
+</body>
+
+</html>
+
+
+
+<!--<a href="/logout/"><button class="btn btn-lg btn-success" type="submit">logout</button></a>
+<p style="text-align: right;padding-right: 10px;font-size: 20px;margin-top: -30px;">Hi {{username}} </p>
